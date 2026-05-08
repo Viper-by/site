@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ODent45 - 3D Digital Dentistry for Blender</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --bs-primary: #2c7da0;
+            --bs-primary-dark: #1a5b7a;
+            --bs-light-bg: #f8f9fa;
+            --bs-card-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+        .hero {
+            background: linear-gradient(135deg, #e9f5f9 0%, #ffffff 100%);
+            padding: 4rem 0 3rem;
+        }
+        .hero img {
+            max-width: 180px;
+            height: auto;
+        }
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--bs-primary) !important;
+        }
+        .nav-link {
+            color: #495057;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: var(--bs-primary-dark);
+        }
+        section {
+            padding: 4rem 0;
+        }
+        section:nth-child(even) {
+            background-color: var(--bs-light-bg);
+        }
+        .section-title {
+            position: relative;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            color: var(--bs-primary-dark);
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--bs-primary);
+            margin-top: 0.5rem;
+            border-radius: 2px;
+        }
+        .card-feature {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: var(--bs-card-shadow);
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .card-feature:hover {
+            transform: translateY(-5px);
+        }
+        .card-feature .icon {
+            font-size: 2.5rem;
+            color: var(--bs-primary);
+        }
+        .table-odent {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--bs-card-shadow);
+        }
+        .table-odent thead {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        footer {
+            background: #212529;
+            color: rgba(255,255,255,0.7);
+            padding: 2rem 0;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #8bb9fe;
+        }
+        /* Language switcher */
+        .lang-switch .btn-lang {
+            background: transparent;
+            border: 1px solid #ccc;
+            color: #495057;
+            font-size: 0.8rem;
+            padding: 0.15rem 0.5rem;
+            margin: 0 0.1rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            transition: 0.2s;
+        }
+        .lang-switch .btn-lang.active {
+            background: var(--bs-primary);
+            color: white;
+            border-color: var(--bs-primary);
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        :target::before {
+            content: "";
+            display: block;
+            height: 70px;
+            margin-top: -70px;
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbar-main" data-bs-offset="70" tabindex="0">
+
+<nav id="navbar-main" class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="./Resources/icons/odent_logo.png" alt="ODent45 Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+            ODent45
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#overview" data-i18n="nav_overview">Overview</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features" data-i18n="nav_features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#formats" data-i18n="nav_formats">Formats</a></li>
+                <li class="nav-item"><a class="nav-link" href="#installation" data-i18n="nav_install">Install</a></li>
+                <li class="nav-item"><a class="nav-link" href="#workflow" data-i18n="nav_workflow">Workflow</a></li>
+                <li class="nav-item"><a class="nav-link" href="#ui" data-i18n="nav_interface">Interface</a></li>
+                <li class="nav-item"><a class="nav-link" href="#troubleshooting" data-i18n="nav_troubleshooting">Troubleshooting</a></li>
+                <li class="nav-item"><a class="nav-link" href="#support" data-i18n="nav_support">Support</a></li>
+            </ul>
+            <div class="lang-switch ms-3 d-flex align-items-center">
+                <button class="btn-lang active" data-lang="en">EN</button>
+                <button class="btn-lang" data-lang="fr">FR</button>
+                <button class="btn-lang" data-lang="ru">RU</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="hero" id="overview">
+    <div class="container text-center">
+        <img src="./Resources/icons/odent_logo.png" alt="ODent45 Logo" class="mb-4">
+        <h1 class="display-4 fw-bold">ODent45</h1>
+        <p class="lead mb-3" data-i18n="hero_subtitle">3D Digital Dentistry for Blender</p>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+            <img src="https://img.shields.io/badge/Blender-4.5%2B-EE6B4F?style=for-the-badge&logo=blender&logoColor=white" alt="Blender 4.5 LTS">
+            <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+">
+            <img src="https://img.shields.io/badge/License-Proprietary-FF6B6B?style=for-the-badge" alt="License">
+        </div>
+        <p class="fw-semibold fs-5 text-secondary" data-i18n="hero_description">Open source dental implant surgical planning addon for Blender 4.5 LTS</p>
+        <p data-i18n="hero_workflow_summary">Complete workflow from DICOM data to surgical guide design</p>
+    </div>
+</header>
+
+<section id="overview-detail">
+    <div class="container">
+        <h2 class="section-title" data-i18n="overview_heading">Overview</h2>
+        <p data-i18n="overview_text">ODent45 is an open source Blender addon designed for dental implant surgical guide planning. It provides a complete digital workflow for dental professionals, from importing CBCT/DICOM scans to designing custom surgical guides ready for 3D printing.</p>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4><i class="fa-solid fa-tooth me-2 text-primary"></i><span data-i18n="what_is_sg_title">What is a Surgical Guide?</span></h4>
+                <p data-i18n="what_is_sg_text">A surgical guide is a 3D-printed template that fits over the patient's teeth or edentulous ridge, containing metal or core sleeves that guide drill bits during implant surgery. This ensures:</p>
+                <ul>
+                    <li data-i18n="sg_point1">Precise implant positioning</li>
+                    <li data-i18n="sg_point2">Reduced surgical time</li>
+                    <li data-i18n="sg_point3">Minimal invasiveness</li>
+                    <li data-i18n="sg_point4">Predictable outcomes</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-feature p-4">
+                    <i class="fa-solid fa-circle-check icon mb-3"></i>
+                    <h5 data-i18n="trusted_title">Trusted by professionals</h5>
+                    <p class="text-muted" data-i18n="trusted_text">Tested in over 500 cases with satisfactory results. Built by dental experts for the community.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="features">
+    <div class="container">
+        <h2 class="section-title" data-i18n="features_heading">Features</h2>
+        <div class="row g-4">
+            <!-- Карточки функций будут динамически обновляться -->
+        </div>
+    </div>
+</section>
+
+<section id="formats">
+    <div class="container">
+        <h2 class="section-title" data-i18n="formats_heading">Input / Output Formats</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <h4><i class="fa-solid fa-file-import me-2 text-primary"></i><span data-i18n="input_formats">Input</span></h4>
+                <div class="table-responsive">
+                    <table class="table table-odent">
+                        <thead>
+                            <tr><th data-i18n="format_col">Format</th><th data-i18n="extension_col">Extension</th><th data-i18n="description_col">Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td data-i18n="dicom_series">DICOM Series</td><td><code>.dcm</code></td><td data-i18n="dicom_series_desc">Folder containing DICOM files</td></tr>
+                            <tr><td data-i18n="dcm">DCM</td><td><code>.DCM, .dcm</code></td><td data-i18n="dcm_desc">Compressed DICOM files</td></tr>
+                            <tr><td data-i18n="nrrd">NRRD</td><td><code>.nrrd</code></td><td data-i18n="nrrd_desc">Nearly Raw Raster Data</td></tr>
+                            <tr><td data-i18n="mha">MHA</td><td><code>.mha</code></td><td data-i18n="mha_desc">Meta Image Archive</td></tr>
+                            <tr><td data-i18n="stl">STL</td><td><code>.stl</code></td><td data-i18n="stl_desc">3D surface mesh</td></tr>
+                            <tr><td data-i18n="obj">OBJ</td><td><code>.obj</code></td><td data-i18n="obj_desc">3D surface mesh</td></tr>
+                            <tr><td data-i18n="ply">PLY</td><td><code>.ply</code></td><td data-i18n="ply_desc">3D surface mesh</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h4><i class="fa-solid fa-file-export me-2 text-primary"></i><span data-i18n="output_formats">Output</span></h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa-solid fa-check me-2 text-success"></i> <span data-i18n="output_stl">STL (3D printing)</span></li>
+                    <li class="list-group-item"><i class="fa-solid fa-check me-2 text-success"></i> <span data-i18n="output_obj">OBJ</span></li>
+                    <li class="list-group-item"><i class="fa-solid fa-check me-2 text-success"></i> <span data-i18n="output_ply">PLY</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="installation">
+    <div class="container">
+        <h2 class="section-title" data-i18n="installation_heading">Installation</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card card-feature p-4">
+                    <h5><i class="fa-solid fa-file-zipper me-2"></i><span data-i18n="method1_title">Method 1: Install from File</span></h5>
+                    <ol>
+                        <li data-i18n="method1_step1">Download <code>ODent45.zip</code></li>
+                        <li data-i18n="method1_step2">Open Blender 4.5</li>
+                        <li data-i18n="method1_step3">Edit → Preferences → Add-ons</li>
+                        <li data-i18n="method1_step4">Click <strong>Install</strong> and select the zip</li>
+                        <li data-i18n="method1_step5">Enable the addon</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-feature p-4">
+                    <h5><i class="fa-solid fa-folder-tree me-2"></i><span data-i18n="method2_title">Method 2: Portable Version</span></h5>
+                    <ol>
+                        <li data-i18n="method2_step1">Download from Telegram support group</li>
+                        <li data-i18n="method2_step2">Ready for use (Windows, Linux)</li>
+                    </ol>
+                    <div class="alert alert-info mt-3 mb-0">
+                        <i class="fa-solid fa-circle-info"></i> <span data-i18n="method2_note">All dependencies and modules are pre‑configured.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="prerequisites">
+    <div class="container">
+        <h4 class="mb-3"><i class="fa-solid fa-list-check me-2 text-primary"></i><span data-i18n="prereq_title">Prerequisites</span></h4>
+        <div class="row">
+            <div class="col-md-6">
+                <h6 data-i18n="prereq_software">Software</h6>
+                <ul>
+                    <li><strong>Blender 4.5 LTS</strong></li>
+                    <li data-i18n="prereq_os">Windows 10/11, macOS, Linux</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6 data-i18n="prereq_python">Python Dependencies (auto‑installed)</h6>
+                <ul>
+                    <li><code>SimpleITK</code> – <span data-i18n="dep_sitk">DICOM reading</span></li>
+                    <li><code>VTK</code> – <span data-i18n="dep_vtk">Visualization Toolkit</span></li>
+                    <li><code>numpy</code>, <code>opencv-python</code>, <code>scipy</code></li>
+                </ul>
+                <p><small class="text-muted"><i class="fa-brands fa-linux me-1"></i><span data-i18n="prereq_linux_note">Linux users: Wine is optional for auto‑align features.</span></small></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="workflow">
+    <div class="container">
+        <h2 class="section-title" data-i18n="workflow_heading">Workflow</h2>
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item"><strong data-i18n="wf_step1_title">Create/Open Project</strong> – <code>File → New Project</code></li>
+            <li class="list-group-item"><strong data-i18n="wf_step2_title">Load DICOM</strong> – <span data-i18n="wf_step2_desc">Set folder path, choose visualization, click <em>Read DICOM</em></span></li>
+            <li class="list-group-item"><strong data-i18n="wf_step3_title">Navigate Slices</strong> – <span data-i18n="wf_step3_desc">In <em>Odent Slicer</em> workspace, move the Slices Pointer</span></li>
+            <li class="list-group-item"><strong data-i18n="wf_step4_title">Generate Mesh</strong> – <span data-i18n="wf_step4_desc">Adjust threshold (bone ≈ 600–800 HU), set color, click <em>DICOM to Mesh</em></span></li>
+            <li class="list-group-item"><strong data-i18n="wf_step5_title">Matching & Blocked Model</strong> – <span data-i18n="wf_step5_desc">Import IOS/dental scan, fix mesh, align with DICOM mesh, make blocked model</span></li>
+            <li class="list-group-item"><strong data-i18n="wf_step6_title">Plan Implant</strong> – <span data-i18n="wf_step6_desc">Add Implant, select tooth, configure parameters, add teeth</span></li>
+            <li class="list-group-item"><strong data-i18n="wf_step7_title">Design Guide</strong> – <span data-i18n="wf_step7_desc">Add Guide Splint or custom tubes, add components, Finalize Guide Geonodes</span></li>
+            <li class="list-group-item"><strong data-i18n="wf_step8_title">Export</strong> – <span data-i18n="wf_step8_desc">Select guide object, <code>File → Export → STL</code></span></li>
+        </ol>
+    </div>
+</section>
+
+<section id="ui">
+    <div class="container">
+        <h2 class="section-title" data-i18n="interface_heading">Interface Overview</h2>
+        <div class="table-responsive">
+            <table class="table table-odent table-hover">
+                <thead>
+                    <tr><th data-i18n="panel_col">Panel</th><th data-i18n="desc_col">Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>MAIN</strong></td><td data-i18n="panel_main_desc">Project management, import/export</td></tr>
+                    <tr><td><strong>DICOM</strong></td><td data-i18n="panel_dicom_desc">Load data, visualization, threshold</td></tr>
+                    <tr><td><strong>SLICES</strong></td><td data-i18n="panel_slices_desc">MPR slice navigation</td></tr>
+                    <tr><td><strong>ALIGN</strong></td><td data-i18n="panel_align_desc">Alignment utilities</td></tr>
+                    <tr><td><strong>IMPLANT</strong></td><td data-i18n="panel_implant_desc">Implant placement and configuration</td></tr>
+                    <tr><td><strong>TOOLS</strong></td><td data-i18n="panel_tools_desc">Mesh repair, cutting, text</td></tr>
+                    <tr><td><strong>LIBRARY</strong></td><td data-i18n="panel_library_desc">Teeth/Implant asset library</td></tr>
+                    <tr><td><strong>SURGICAL GUIDE</strong></td><td data-i18n="panel_guide_desc">Surgical guide design</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section id="troubleshooting">
+    <div class="container">
+        <h2 class="section-title" data-i18n="troubleshooting_heading">Troubleshooting</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" data-i18n="faq1_title">"Missing modules" Error</button></h2>
+                <div class="accordion-collapse collapse show" id="faq1">
+                    <div class="accordion-body" data-i18n="faq1_body">After install, the addon will display a warning panel. Click <strong>Install Odent modules</strong> and set preferences.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" data-i18n="faq2_title">No Points After Loading DICOM</button></h2>
+                <div class="accordion-collapse collapse" id="faq2">
+                    <div class="accordion-body" data-i18n="faq2_body">Check that the threshold is not too high and that your DICOM data is valid.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" data-i18n="faq3_title">Slice Update Not Working</button></h2>
+                <div class="accordion-collapse collapse" id="faq3">
+                    <div class="accordion-body" data-i18n="faq3_body">Ensure you're in the <em>"Odent Slicer"</em> workspace. Select the Slices Pointer object and move it.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" data-i18n="faq4_title">Export Issues</button></h2>
+                <div class="accordion-collapse collapse" id="faq4">
+                    <div class="accordion-body" data-i18n="faq4_body">Make sure the mesh is selected and active before exporting.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="support">
+    <div class="container">
+        <h2 class="section-title" data-i18n="support_heading">Support</h2>
+        <div class="card card-feature p-4 text-center">
+            <i class="fa-brands fa-telegram fa-2x text-primary mb-3"></i>
+            <h5 data-i18n="support_community_title">Community & Updates</h5>
+            <p data-i18n="support_community_text">Join the Telegram community (link available in the addon welcome panel).<br>
+            Check for updates directly within the addon.</p>
+            <hr>
+            <h5 data-i18n="support_authors_title">Authors</h5>
+            <ul class="list-unstyled">
+                <li>Dr. Essaid Issam Dakir DMD</li>
+                <li>Dr. Ilya Fomenco DMD</li>
+                <li>Dr. Krasouski Dmitry DMD</li>
+            </ul>
+            <p class="text-muted" data-i18n="support_version">Version <strong>v4.5.0</strong> – April 2025 · Built for Blender 4.5 LTS</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="disclaimer">
+        <p class="mb-0"><i class="fa-solid fa-triangle-exclamation me-2"></i>
+            <strong data-i18n="disclaimer_title">Medical Disclaimer:</strong> <span data-i18n="disclaimer_text">This software is not a medical device and has not been approved or cleared by the FDA or any other regulatory authority. It is intended solely for research, educational, and development purposes and must not be used for clinical diagnosis, treatment planning, or surgical procedures. While the add‑on has been tested internally in over 500 cases with satisfactory results, this does not constitute clinical validation or regulatory approval. The authors and contributors disclaim any liability arising from its use.</span>
+        </p>
+    </div>
+</div>
+
+<footer class="text-center mt-5">
+    <div class="container">
+        <p class="mb-0">© 2025 ODent45. Hosted with <i class="fa-brands fa-github"></i> GitHub Pages.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ======================
+    // Translation dictionary
+    // ======================
+    const translations = {
+        en: {
+            nav_overview: "Overview",
+            nav_features: "Features",
+            nav_formats: "Formats",
+            nav_install: "Install",
+            nav_workflow: "Workflow",
+            nav_interface: "Interface",
+            nav_troubleshooting: "Troubleshooting",
+            nav_support: "Support",
+            hero_subtitle: "3D Digital Dentistry for Blender",
+            hero_description: "Open source dental implant surgical planning addon for Blender 4.5 LTS",
+            hero_workflow_summary: "Complete workflow from DICOM data to surgical guide design",
+            overview_heading: "Overview",
+            overview_text: "ODent45 is an open source Blender addon designed for dental implant surgical guide planning. It provides a complete digital workflow for dental professionals, from importing CBCT/DICOM scans to designing custom surgical guides ready for 3D printing.",
+            what_is_sg_title: "What is a Surgical Guide?",
+            what_is_sg_text: "A surgical guide is a 3D-printed template that fits over the patient's teeth or edentulous ridge, containing metal or core sleeves that guide drill bits during implant surgery. This ensures:",
+            sg_point1: "Precise implant positioning",
+            sg_point2: "Reduced surgical time",
+            sg_point3: "Minimal invasiveness",
+            sg_point4: "Predictable outcomes",
+            trusted_title: "Trusted by professionals",
+            trusted_text: "Tested in over 500 cases with satisfactory results. Built by dental experts for the community.",
+            features_heading: "Features",
+            formats_heading: "Input / Output Formats",
+            input_formats: "Input",
+            output_formats: "Output",
+            format_col: "Format",
+            extension_col: "Extension",
+            description_col: "Description",
+            dicom_series: "DICOM Series",
+            dicom_series_desc: "Folder containing DICOM files",
+            dcm: "DCM",
+            dcm_desc: "Compressed DICOM files",
+            nrrd: "NRRD",
+            nrrd_desc: "Nearly Raw Raster Data",
+            mha: "MHA",
+            mha_desc: "Meta Image Archive",
+            stl: "STL",
+            stl_desc: "3D surface mesh",
+            obj: "OBJ",
+            obj_desc: "3D surface mesh",
+            ply: "PLY",
+            ply_desc: "3D surface mesh",
+            output_stl: "STL (3D printing)",
+            output_obj: "OBJ",
+            output_ply: "PLY",
+            installation_heading: "Installation",
+            method1_title: "Method 1: Install from File",
+            method1_step1: "Download <code>ODent45.zip</code>",
+            method1_step2: "Open Blender 4.5",
+            method1_step3: "Edit → Preferences → Add-ons",
+            method1_step4: "Click <strong>Install</strong> and select the zip",
+            method1_step5: "Enable the addon",
+            method2_title: "Method 2: Portable Version",
+            method2_step1: "Download from Telegram support group",
+            method2_step2: "Ready for use (Windows, Linux)",
+            method2_note: "All dependencies and modules are pre‑configured.",
+            prereq_title: "Prerequisites",
+            prereq_software: "Software",
+            prereq_os: "Windows 10/11, macOS, Linux",
+            prereq_python: "Python Dependencies (auto‑installed)",
+            dep_sitk: "DICOM reading",
+            dep_vtk: "Visualization Toolkit",
+            prereq_linux_note: "Linux users: Wine is optional for auto‑align features.",
+            workflow_heading: "Workflow",
+            wf_step1_title: "Create/Open Project",
+            wf_step2_title: "Load DICOM",
+            wf_step2_desc: "Set folder path, choose visualization, click <em>Read DICOM</em>",
+            wf_step3_title: "Navigate Slices",
+            wf_step3_desc: "In <em>Odent Slicer</em> workspace, move the Slices Pointer",
+            wf_step4_title: "Generate Mesh",
+            wf_step4_desc: "Adjust threshold (bone ≈ 600–800 HU), set color, click <em>DICOM to Mesh</em>",
+            wf_step5_title: "Matching & Blocked Model",
+            wf_step5_desc: "Import IOS/dental scan, fix mesh, align with DICOM mesh, make blocked model",
+            wf_step6_title: "Plan Implant",
+            wf_step6_desc: "Add Implant, select tooth, configure parameters, add teeth",
+            wf_step7_title: "Design Guide",
+            wf_step7_desc: "Add Guide Splint or custom tubes, add components, Finalize Guide Geonodes",
+            wf_step8_title: "Export",
+            wf_step8_desc: "Select guide object, <code>File → Export → STL</code>",
+            interface_heading: "Interface Overview",
+            panel_col: "Panel",
+            desc_col: "Description",
+            panel_main_desc: "Project management, import/export",
+            panel_dicom_desc: "Load data, visualization, threshold",
+            panel_slices_desc: "MPR slice navigation",
+            panel_align_desc: "Alignment utilities",
+            panel_implant_desc: "Implant placement and configuration",
+            panel_tools_desc: "Mesh repair, cutting, text",
+            panel_library_desc: "Teeth/Implant asset library",
+            panel_guide_desc: "Surgical guide design",
+            troubleshooting_heading: "Troubleshooting",
+            faq1_title: "\"Missing modules\" Error",
+            faq1_body: "After install, the addon will display a warning panel. Click <strong>Install Odent modules</strong> and set preferences.",
+            faq2_title: "No Points After Loading DICOM",
+            faq2_body: "Check that the threshold is not too high and that your DICOM data is valid.",
+            faq3_title: "Slice Update Not Working",
+            faq3_body: "Ensure you're in the <em>\"Odent Slicer\"</em> workspace. Select the Slices Pointer object and move it.",
+            faq4_title: "Export Issues",
+            faq4_body: "Make sure the mesh is selected and active before exporting.",
+            support_heading: "Support",
+            support_community_title: "Community & Updates",
+            support_community_text: "Join the Telegram community (link available in the addon welcome panel).<br>Check for updates directly within the addon.",
+            support_authors_title: "Authors",
+            support_version: "Version <strong>v4.5.0</strong> – April 2025 · Built for Blender 4.5 LTS",
+            disclaimer_title: "Medical Disclaimer:",
+            disclaimer_text: "This software is not a medical device and has not been approved or cleared by the FDA or any other regulatory authority. It is intended solely for research, educational, and development purposes and must not be used for clinical diagnosis, treatment planning, or surgical procedures. While the add‑on has been tested internally in over 500 cases with satisfactory results, this does not constitute clinical validation or regulatory approval. The authors and contributors disclaim any liability arising from its use."
+        },
+        fr: {
+            nav_overview: "Aperçu",
+            nav_features: "Fonctionnalités",
+            nav_formats: "Formats",
+            nav_install: "Installation",
+            nav_workflow: "Workflow",
+            nav_interface: "Interface",
+            nav_troubleshooting: "Dépannage",
+            nav_support: "Support",
+            hero_subtitle: "Dentisterie numérique 3D pour Blender",
+            hero_description: "Extension open source de planification implantaire pour Blender 4.5 LTS",
+            hero_workflow_summary: "Workflow complet des données DICOM à la conception du guide chirurgical",
+            overview_heading: "Aperçu",
+            overview_text: "ODent45 est une extension open source pour Blender destinée à la planification de guides chirurgicaux pour implants dentaires. Il offre un flux de travail numérique complet, de l'importation de scans CBCT/DICOM à la conception de guides personnalisés prêts pour l'impression 3D.",
+            what_is_sg_title: "Qu'est-ce qu'un guide chirurgical ?",
+            what_is_sg_text: "Un guide chirurgical est un gabarit imprimé en 3D qui s'adapte sur les dents du patient ou la crête édentée, contenant des manchons métalliques qui guident les forets lors de l'intervention. Cela garantit :",
+            sg_point1: "Positionnement précis de l'implant",
+            sg_point2: "Temps chirurgical réduit",
+            sg_point3: "Invasivité minimale",
+            sg_point4: "Résultats prévisibles",
+            trusted_title: "Approuvé par les professionnels",
+            trusted_text: "Testé dans plus de 500 cas avec des résultats satisfaisants. Créé par des experts dentaires pour la communauté.",
+            features_heading: "Fonctionnalités",
+            formats_heading: "Formats d'entrée / sortie",
+            input_formats: "Entrée",
+            output_formats: "Sortie",
+            format_col: "Format",
+            extension_col: "Extension",
+            description_col: "Description",
+            dicom_series: "Série DICOM",
+            dicom_series_desc: "Dossier contenant des fichiers DICOM",
+            dcm: "DCM",
+            dcm_desc: "Fichiers DICOM compressés",
+            nrrd: "NRRD",
+            nrrd_desc: "Nearly Raw Raster Data",
+            mha: "MHA",
+            mha_desc: "Meta Image Archive",
+            stl: "STL",
+            stl_desc: "Maillage surfacique 3D",
+            obj: "OBJ",
+            obj_desc: "Maillage surfacique 3D",
+            ply: "PLY",
+            ply_desc: "Maillage surfacique 3D",
+            output_stl: "STL (impression 3D)",
+            output_obj: "OBJ",
+            output_ply: "PLY",
+            installation_heading: "Installation",
+            method1_title: "Méthode 1 : Installer à partir du fichier",
+            method1_step1: "Téléchargez <code>ODent45.zip</code>",
+            method1_step2: "Ouvrez Blender 4.5",
+            method1_step3: "Edit → Preferences → Add-ons",
+            method1_step4: "Cliquez sur <strong>Install</strong> et sélectionnez le zip",
+            method1_step5: "Activez l'extension",
+            method2_title: "Méthode 2 : Version portable",
+            method2_step1: "Téléchargez depuis le groupe Telegram",
+            method2_step2: "Prêt à l'emploi (Windows, Linux)",
+            method2_note: "Toutes les dépendances et modules sont pré‑configurés.",
+            prereq_title: "Prérequis",
+            prereq_software: "Logiciel",
+            prereq_os: "Windows 10/11, macOS, Linux",
+            prereq_python: "Dépendances Python (installation automatique)",
+            dep_sitk: "Lecture DICOM",
+            dep_vtk: "Boîte à outils de visualisation",
+            prereq_linux_note: "Utilisateurs Linux : Wine est optionnel pour l'alignement automatique.",
+            workflow_heading: "Workflow",
+            wf_step1_title: "Créer/Ouvrir un projet",
+            wf_step2_title: "Charger les DICOM",
+            wf_step2_desc: "Définissez le dossier, choisissez la visualisation, cliquez sur <em>Read DICOM</em>",
+            wf_step3_title: "Naviguer dans les coupes",
+            wf_step3_desc: "Dans l'espace de travail <em>Odent Slicer</em>, déplacez le pointeur de coupes",
+            wf_step4_title: "Générer le maillage",
+            wf_step4_desc: "Réglez le seuil (os ≈ 600–800 HU), choisissez la couleur, cliquez sur <em>DICOM to Mesh</em>",
+            wf_step5_title: "Correspondance & modèle bloqué",
+            wf_step5_desc: "Importez le scan intra‑oral, réparez le maillage, alignez avec le maillage DICOM, créez le modèle bloqué",
+            wf_step6_title: "Planification implantaire",
+            wf_step6_desc: "Ajoutez un implant, sélectionnez la dent, configurez les paramètres, ajoutez les dents",
+            wf_step7_title: "Conception du guide",
+            wf_step7_desc: "Ajoutez un splint ou des tubes personnalisés, ajoutez des composants, finalisez avec <em>Guide Geonodes</em>",
+            wf_step8_title: "Export",
+            wf_step8_desc: "Sélectionnez l'objet guide, <code>File → Export → STL</code>",
+            interface_heading: "Vue d'ensemble de l'interface",
+            panel_col: "Panneau",
+            desc_col: "Description",
+            panel_main_desc: "Gestion de projet, import/export",
+            panel_dicom_desc: "Chargement des données, visualisation, seuil",
+            panel_slices_desc: "Navigation MPR",
+            panel_align_desc: "Utilitaires d'alignement",
+            panel_implant_desc: "Positionnement et configuration des implants",
+            panel_tools_desc: "Réparation de maillage, découpage, texte",
+            panel_library_desc: "Bibliothèque de dents/implants",
+            panel_guide_desc: "Conception du guide chirurgical",
+            troubleshooting_heading: "Dépannage",
+            faq1_title: "Erreur « Modules manquants »",
+            faq1_body: "Après l'installation, l'extension affiche un panneau d'avertissement. Cliquez sur <strong>Install Odent modules</strong> et définissez les préférences.",
+            faq2_title: "Aucun point après le chargement DICOM",
+            faq2_body: "Vérifiez que le seuil n'est pas trop élevé et que les données DICOM sont valides.",
+            faq3_title: "La mise à jour des coupes ne fonctionne pas",
+            faq3_body: "Assurez-vous d'être dans l'espace de travail <em>« Odent Slicer »</em>. Sélectionnez l'objet Slices Pointer et déplacez‑le.",
+            faq4_title: "Problèmes d'export",
+            faq4_body: "Vérifiez que le maillage est sélectionné et actif avant l'export.",
+            support_heading: "Support",
+            support_community_title: "Communauté & mises à jour",
+            support_community_text: "Rejoignez la communauté Telegram (lien disponible dans le panneau d'accueil de l'extension).<br>Vérifiez les mises à jour directement dans l'extension.",
+            support_authors_title: "Auteurs",
+            support_version: "Version <strong>v4.5.0</strong> – Avril 2025 · Conçu pour Blender 4.5 LTS",
+            disclaimer_title: "Avertissement médical :",
+            disclaimer_text: "Ce logiciel n'est pas un dispositif médical et n'a pas été approuvé par la FDA ou toute autre autorité réglementaire. Il est destiné uniquement à la recherche, à l'éducation et au développement et ne doit pas être utilisé pour le diagnostic clinique, la planification de traitement ou les procédures chirurgicales. Bien que l'extension ait été testée en interne dans plus de 500 cas avec des résultats satisfaisants, cela ne constitue pas une validation clinique ni une approbation réglementaire. Les auteurs et contributeurs déclinent toute responsabilité découlant de son utilisation."
+        },
+        ru: {
+            nav_overview: "Обзор",
+            nav_features: "Возможности",
+            nav_formats: "Форматы",
+            nav_install: "Установка",
+            nav_workflow: "Рабочий процесс",
+            nav_interface: "Интерфейс",
+            nav_troubleshooting: "Устранение неполадок",
+            nav_support: "Поддержка",
+            hero_subtitle: "3D-стоматология для Blender",
+            hero_description: "Аддон с открытым исходным кодом для планирования хирургических шаблонов под Blender 4.5 LTS",
+            hero_workflow_summary: "Полный цикл от DICOM до разработки хирургического шаблона",
+            overview_heading: "Обзор",
+            overview_text: "ODent45 — это аддон для Blender с открытым исходным кодом, предназначенный для планирования хирургических направляющих при дентальной имплантации. Он обеспечивает полный цифровой рабочий процесс: от импорта КЛКТ/DICOM‑снимков до проектирования индивидуальных хирургических шаблонов, готовых к 3D‑печати.",
+            what_is_sg_title: "Что такое хирургический шаблон?",
+            what_is_sg_text: "Хирургический шаблон — это напечатанный на 3D-принтере шаблон, который надевается на зубы пациента или беззубый альвеолярный гребень и содержит металлические направляющие втулки для сверл. Это обеспечивает:",
+            sg_point1: "Точное позиционирование имплантата",
+            sg_point2: "Сокращение времени операции",
+            sg_point3: "Минимальную инвазивность",
+            sg_point4: "Предсказуемые результаты",
+            trusted_title: "Доверие профессионалов",
+            trusted_text: "Протестировано более чем в 500 случаях с удовлетворительными результатами. Создано экспертами-стоматологами для сообщества.",
+            features_heading: "Возможности",
+            formats_heading: "Входные / выходные форматы",
+            input_formats: "Входные",
+            output_formats: "Выходные",
+            format_col: "Формат",
+            extension_col: "Расширение",
+            description_col: "Описание",
+            dicom_series: "Серия DICOM",
+            dicom_series_desc: "Папка с файлами DICOM",
+            dcm: "DCM",
+            dcm_desc: "Сжатые файлы DICOM",
+            nrrd: "NRRD",
+            nrrd_desc: "Nearly Raw Raster Data",
+            mha: "MHA",
+            mha_desc: "Meta Image Archive",
+            stl: "STL",
+            stl_desc: "3D-поверхностная сетка",
+            obj: "OBJ",
+            obj_desc: "3D-поверхностная сетка",
+            ply: "PLY",
+            ply_desc: "3D-поверхностная сетка",
+            output_stl: "STL (для 3D-печати)",
+            output_obj: "OBJ",
+            output_ply: "PLY",
+            installation_heading: "Установка",
+            method1_title: "Способ 1: Установка из файла",
+            method1_step1: "Скачайте <code>ODent45.zip</code>",
+            method1_step2: "Откройте Blender 4.5",
+            method1_step3: "Edit → Preferences → Add-ons",
+            method1_step4: "Нажмите <strong>Install</strong> и выберите zip-файл",
+            method1_step5: "Активируйте аддон",
+            method2_title: "Способ 2: Портативная версия",
+            method2_step1: "Скачайте из Telegram-группы поддержки",
+            method2_step2: "Готово к использованию (Windows, Linux)",
+            method2_note: "Все зависимости и модули уже настроены.",
+            prereq_title: "Необходимые компоненты",
+            prereq_software: "Программное обеспечение",
+            prereq_os: "Windows 10/11, macOS, Linux",
+            prereq_python: "Зависимости Python (устанавливаются автоматически)",
+            dep_sitk: "Чтение DICOM",
+            dep_vtk: "Инструментарий визуализации",
+            prereq_linux_note: "Пользователям Linux: Wine опционально для автоматического совмещения.",
+            workflow_heading: "Рабочий процесс",
+            wf_step1_title: "Создать/открыть проект",
+            wf_step2_title: "Загрузить DICOM",
+            wf_step2_desc: "Укажите путь к папке, выберите визуализацию, нажмите <em>Read DICOM</em>",
+            wf_step3_title: "Навигация по срезам",
+            wf_step3_desc: "В рабочем пространстве <em>Odent Slicer</em> перемещайте указатель срезов",
+            wf_step4_title: "Генерация сетки",
+            wf_step4_desc: "Настройте порог (кость ≈ 600–800 HU), выберите цвет, нажмите <em>DICOM to Mesh</em>",
+            wf_step5_title: "Совмещение и заблокированная модель",
+            wf_step5_desc: "Импортируйте внутриротовой скан, исправьте сетку, совместите с DICOM-сеткой, создайте заблокированную модель",
+            wf_step6_title: "Планирование имплантата",
+            wf_step6_desc: "Добавьте имплантат, выберите зуб, настройте параметры, добавьте зубы",
+            wf_step7_title: "Дизайн шаблона",
+            wf_step7_desc: "Добавьте сплинт или направляющие трубки, добавьте компоненты, финализируйте через <em>Guide Geonodes</em>",
+            wf_step8_title: "Экспорт",
+            wf_step8_desc: "Выделите объект шаблона, <code>File → Export → STL</code>",
+            interface_heading: "Обзор интерфейса",
+            panel_col: "Панель",
+            desc_col: "Описание",
+            panel_main_desc: "Управление проектом, импорт/экспорт",
+            panel_dicom_desc: "Загрузка данных, визуализация, порог",
+            panel_slices_desc: "Навигация по MPR-срезам",
+            panel_align_desc: "Инструменты совмещения",
+            panel_implant_desc: "Позиционирование и настройка имплантатов",
+            panel_tools_desc: "Восстановление сетки, резка, текст",
+            panel_library_desc: "Библиотека зубов/имплантатов",
+            panel_guide_desc: "Проектирование хирургического шаблона",
+            troubleshooting_heading: "Устранение неполадок",
+            faq1_title: "Ошибка «Missing modules»",
+            faq1_body: "После установки аддон покажет панель с предупреждением. Нажмите <strong>Install Odent modules</strong> и настройте параметры.",
+            faq2_title: "Нет точек после загрузки DICOM",
+            faq2_body: "Проверьте, что порог не слишком высок и данные DICOM корректны.",
+            faq3_title: "Не обновляются срезы",
+            faq3_body: "Убедитесь, что вы находитесь в workspace <em>«Odent Slicer»</em>. Выберите объект Slices Pointer и переместите его.",
+            faq4_title: "Проблемы с экспортом",
+            faq4_body: "Убедитесь, что сетка выделена и активна перед экспортом.",
+            support_heading: "Поддержка",
+            support_community_title: "Сообщество и обновления",
+            support_community_text: "Присоединяйтесь к Telegram-сообществу (ссылка доступна в приветственной панели аддона).<br>Проверяйте обновления прямо в аддоне.",
+            support_authors_title: "Авторы",
+            support_version: "Версия <strong>v4.5.0</strong> – Апрель 2025 · Для Blender 4.5 LTS",
+            disclaimer_title: "Медицинское предупреждение:",
+            disclaimer_text: "Данное программное обеспечение не является медицинским изделием и не было одобрено FDA или иными регулирующими органами. Оно предназначено исключительно для исследовательских, образовательных и разработочных целей и не должно использоваться для клинической диагностики, планирования лечения или хирургических процедур. Хотя аддон был протестирован внутри компании более чем в 500 случаях с удовлетворительными результатами, это не является клинической валидацией или одобрением регулирующих органов. Авторы и разработчики не несут ответственности за любой ущерб, возникший в результате его использования."
+        }
+    };
+
+    // Apply translations and update active button
+    function applyLanguage(lang) {
+        if (!translations[lang]) return;
+        // Update all elements with data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        // Update active button
+        document.querySelectorAll('.btn-lang').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            }
+        });
+        // Store preference
+        localStorage.setItem('odentLang', lang);
+    }
+
+    // Language switch handler
+    function switchLang(lang) {
+        applyLanguage(lang);
+    }
+
+    // Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+        // Determine language: stored preference > browser language > 'en'
+        let lang = localStorage.getItem('odentLang');
+        if (!lang) {
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang.startsWith('ru')) lang = 'ru';
+            else if (browserLang.startsWith('fr')) lang = 'fr';
+            else lang = 'en';
+        }
+        // Apply language
+        applyLanguage(lang);
+
+        // Add click events to language buttons
+        document.querySelectorAll('.btn-lang').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                switchLang(lang);
+            });
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const offset = 70;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - offset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
