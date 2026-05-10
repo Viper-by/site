@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ODent45 - 3D Digital Dentistry for Blender</title>
+    <title>ODent - 3D Digital Dentistry for Blender</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome 6 -->
@@ -123,8 +123,8 @@
 <nav id="navbar-main" class="navbar navbar-expand-lg sticky-top">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="./Resources/icons/odent_logo.png" alt="ODent45 Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
-            ODent45
+            <img src="./Resources/icons/odent_logo.png" alt="ODent Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+            ODent
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -132,7 +132,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
-                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">Functions</a></li>
                 <li class="nav-item"><a class="nav-link" href="#formats">Formats</a></li>
                 <li class="nav-item"><a class="nav-link" href="#installation">Install</a></li>
                 <li class="nav-item"><a class="nav-link" href="#workflow">Workflow</a></li>
@@ -145,8 +145,8 @@
 
 <header class="hero" id="overview">
     <div class="container text-center">
-        <img src="./Resources/icons/odent_logo.png" alt="ODent45 Logo" class="mb-4">
-        <h1 class="display-4 fw-bold">ODent45</h1>
+        <img src="./Resources/icons/odent_logo.png" alt="ODent Logo" class="mb-4">
+        <h1 class="display-4 fw-bold">ODent</h1>
         <p class="fw-semibold fs-5 text-secondary">Open source dental implant surgical planning addon for Blender 4.5 LTS</p>
         <p>Complete workflow from DICOM data to surgical guide design</p>
     </div>
@@ -155,7 +155,7 @@
 <section id="overview-detail">
     <div class="container">
         <h2 class="section-title">Overview</h2>
-        <p>ODent45 is an open source Blender addon designed for dental implant surgical guide planning. It provides a complete digital workflow for dental professionals, from importing CBCT/DICOM scans to designing custom surgical guides ready for 3D printing.</p>
+        <p>ODent is an open source Blender addon designed for dental implant surgical guide planning. It provides a complete digital workflow for dental professionals, from importing CBCT/DICOM scans to designing custom surgical guides ready for 3D printing.</p>
         <div class="row mt-4">
             <div class="col-md-6">
                 <h4><i class="fa-solid fa-tooth me-2 text-primary"></i>What is a Surgical Guide?</h4>
@@ -169,9 +169,8 @@
             </div>
             <div class="col-md-6">
                 <div class="card card-feature p-4">
-                    <i class="fa-solid fa-circle-check icon mb-3"></i>
-                    <h5>Trusted by professionals</h5>
-                    <p class="text-muted">Tested in over 500 cases with satisfactory results. Built by dental experts for the community.</p>
+                    <i class="fa-solid fa-flask icon mb-3"></i>
+                    <p class="fs-5 fw-semibold">Tested in 500+ cases with satisfactory results. Built by dental experts for the community.</p>
                 </div>
             </div>
         </div>
@@ -180,7 +179,7 @@
 
 <section id="features">
     <div class="container">
-        <h2 class="section-title">Features</h2>
+        <h2 class="section-title">Functions</h2>
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card card-feature p-4">
@@ -272,13 +271,36 @@
                             <tr><th>Format</th><th>Extension</th><th>Description</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>DICOM Series</td><td><code>.dcm</code></td><td>Folder containing DICOM files</td></tr>
-                            <tr><td>DCM</td><td><code>.DCM, .dcm</code></td><td>Compressed DICOM files</td></tr>
-                            <tr><td>NRRD</td><td><code>.nrrd</code></td><td>Nearly Raw Raster Data</td></tr>
-                            <tr><td>MHA</td><td><code>.mha</code></td><td>Meta Image Archive</td></tr>
-                            <tr><td>STL</td><td><code>.stl</code></td><td>3D surface mesh</td></tr>
-                            <tr><td>OBJ</td><td><code>.obj</code></td><td>3D surface mesh</td></tr>
-                            <tr><td>PLY</td><td><code>.ply</code></td><td>3D surface mesh</td></tr>
+                            <tr>
+                                <td>DICOM</td>
+                                <td><code>.dcm</code></td>
+                                <td>DICOM series or Image DICOM.</td>
+                            </tr>
+                            <tr>
+                                <td>NRRD</td>
+                                <td><code>.nrrd</code></td>
+                                <td>Nearly Raw Raster Data.</td>
+                            </tr>
+                            <tr>
+                                <td>MHA</td>
+                                <td><code>.mha</code></td>
+                                <td>Meta Image Archive.</td>
+                            </tr>
+                            <tr>
+                                <td>STL</td>
+                                <td><code>.stl</code></td>
+                                <td>Geometry only, no color.</td>
+                            </tr>
+                            <tr>
+                                <td>OBJ</td>
+                                <td><code>.obj</code></td>
+                                <td>Geometry, textures via .mtl.</td>
+                            </tr>
+                            <tr>
+                                <td>PLY</td>
+                                <td><code>.ply</code></td>
+                                <td>Geometry, scan vertex colors.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -303,7 +325,7 @@
                 <div class="card card-feature p-4">
                     <h5><i class="fa-solid fa-file-zipper me-2"></i>Method 1: Install from File</h5>
                     <ol>
-                        <li>Download <code>ODent45.zip</code></li>
+                        <li>Download <code>ODent.zip</code></li>
                         <li>Open Blender 4.5</li>
                         <li>Edit → Preferences → Add-ons</li>
                         <li>Click <strong>Install</strong> and select the zip</li>
@@ -372,26 +394,42 @@
         <h2 class="section-title">FAQ</h2>
         <div class="accordion" id="faqAccordion">
             <div class="accordion-item">
-                <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">"Missing modules" Error</button></h2>
-                <div class="accordion-collapse collapse show" id="faq1">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        "Missing modules" Error
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse" id="faq1" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">After install, the addon will display a warning panel. Click <strong>Install Odent modules</strong> and set preferences.</div>
                 </div>
             </div>
             <div class="accordion-item">
-                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">No Points After Loading DICOM</button></h2>
-                <div class="accordion-collapse collapse" id="faq2">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        No Points After Loading DICOM
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse" id="faq2" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">Check that the threshold is not too high and that your DICOM data is valid.</div>
                 </div>
             </div>
             <div class="accordion-item">
-                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">Slice Update Not Working</button></h2>
-                <div class="accordion-collapse collapse" id="faq3">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Slice Update Not Working
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse" id="faq3" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">Ensure you're in the <em>"Odent Slicer"</em> workspace. Select the Slices Pointer object and move it.</div>
                 </div>
             </div>
             <div class="accordion-item">
-                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">Export Issues</button></h2>
-                <div class="accordion-collapse collapse" id="faq4">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Export Issues
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse" id="faq4" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">Make sure the mesh is selected and active before exporting.</div>
                 </div>
             </div>
@@ -419,6 +457,7 @@
     </div>
 </section>
 
+<!-- Medical Disclaimer -->
 <div class="container">
     <div class="disclaimer">
         <p class="mb-0"><i class="fa-solid fa-triangle-exclamation me-2"></i>
@@ -429,12 +468,14 @@
 
 <footer class="text-center mt-5">
     <div class="container">
-        <p class="mb-0">© 2025 ODent45. Hosted with <i class="fa-brands fa-github"></i> GitHub Pages.</p>
+        <p class="mb-0">© <span id="currentYear"></span> ODent</p>
     </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
